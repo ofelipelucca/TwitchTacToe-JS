@@ -1,8 +1,7 @@
-# React + Vite
+# TWITCH TAC TOE
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 🚧 PROJETO EM CONSTRUÇÃO 🚧
 
-Currently, two official plugins are available:
+Neste site é possível se conectar à um canal da Twitch, e jogar TicTacToe com os viewers por meio de comandos no chat.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## JavaScript + React + Vite + Redux
