@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "../node_modules/@reduxjs/toolkit/dist/index";
 
 const initialState = {
     gameStarted: false,
