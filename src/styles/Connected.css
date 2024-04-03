@@ -1,0 +1,178 @@
+#container-connected {
+    position: relative;
+    height: 100%;
+    width: 65.7%;
+    left: 15.2%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    animation: showup 0.7s;
+}
+
+@keyframes showup {
+    from {
+        transform: translateX(-50%);
+    }
+    to {
+        transform: translateX(0%);
+    }
+}
+
+.gameControls {
+    display: flex;
+    gap: 1.5vh;
+    background-color: rgb(255, 255, 255, 0);
+    padding: 2vh;
+    border-radius: 1vh;
+}
+
+.startButton {
+    width: 24vh;
+    height: 9vh;
+    background-color: rgba(255, 255, 255, 0.20);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+ 
+.changeChannelButton {
+    width: 24vh;
+    height: 9vh;
+    background-color: rgba(255, 255, 255, 0.20);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.chatContainer {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    width: 29%;
+    height: 99%;
+    background-color: rgba(255, 255, 255, 0.30);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    padding: 1vh;
+    padding-right: 2vh;
+    border-style: none;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    left: 0;
+    top: 0;
+    animation: pop 1s;
+}
+
+.instructions {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    left: 0;
+    top: 10%;
+    font-family: Verdana;
+    width: 100%;
+    height: 100%;
+    color: white;
+    gap: 1vh;
+    backdrop-filter: blur(4px);
+    padding: 4vh;
+}
+
+#instructions-texto {
+    display: contents;
+    width: 100%;
+    height: 10vh;
+}
+
+#instructions-h2 {
+    font-size: 7vh;
+}
+
+#instructions-h3 {
+    font-size: 4.5vh;
+}
+
+#instructions-comandos {
+    display: contents;
+}
+
+#instructions-vermelho {
+    gap: 1vh;
+    display: flex;
+}
+
+#instructions-azul {
+    gap: 1vh;
+    display: flex;
+}
+
+#vermelho {
+    background-color: white;
+    color: red;
+}
+
+#azul {
+    background-color: white;
+    color: blue;
+}
+
+.container-times {
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.time-vermelho {
+    display: inline-flex;
+    align-items: baseline;
+    padding-right: 12vh;
+}
+
+.time-azul {
+    display: inline-flex;
+    align-items: baseline;
+}
+
+#qnt-time-vermelho {
+    padding-right: 1vh;
+    font-size: 3vh;
+}
+
+#qnt-time-azul {
+    padding-right: 1vh;
+    font-size: 3vh;
+}
+
+@keyframes pop {
+    from {
+        left: -30%;
+    }
+    to {
+        left: 0;
+    }
+}
+
+.chatContainer::-webkit-scrollbar {
+    width: 0.8vh;
+    background: none;
+}
+
+.chatContainer::-webkit-scrollbar-thumb {
+    background: white;
+    border-radius: 1vh;
+}
+
+.chatContainer::-webkit-scrollbar-thumb:hover {
+    background-color: gray;
+}
+
+.Mensagem {
+    white-space: wrap;
+    padding-left: 1%;
+    padding-bottom: 2%;
+    color: white;
+    font-size: 2.5vh;
+}
