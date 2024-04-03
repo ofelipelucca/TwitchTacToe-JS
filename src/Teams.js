@@ -11,7 +11,7 @@ export class TicTacToeTeams {
             } else if (jogador.Time === "azul") {
                 this.timeAzul.push(jogador);
             } else {
-                throw new Error("Não foi possível verificar o time do jogador " + jogador, ".");
+                throw new Error("Não foi possível verificar a entrada do time do jogador " + jogador, ".");
             }
         } else {
             throw new Error("Entrada inválida: O método 'adicionarJogador' deve receber um objeto de 'TicTacToePlayers'.");

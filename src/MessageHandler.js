@@ -14,7 +14,7 @@ export class MessageHandler {
 
         mensagem = mensagem.toLowerCase();
 
-        if (store.getState().game.votacaoAcontecendo) {
+        if (store.getState().game.votacaoAcontecendo && mensagem.startsWith('!')) {
             const voto = await this.processarVoto(nome, mensagem);
 
             this.InstanceMaster.Votacao.registrarVoto(voto);
@@ -93,7 +93,5 @@ export class MessageHandler {
 
             return;
         }
-
-        throw new Error("Não foi possível criar um novo Jogador ");
     }
 }

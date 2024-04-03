@@ -44,7 +44,7 @@ export class Votacao {
                 indice = 8;
                 break;
             default:
-                throw new Error("Não foi possível registrar o voto: " + voto);
+                return;
         }
 
         if (store.getState().game.tabuleiroAtual[indice] != '') return;
