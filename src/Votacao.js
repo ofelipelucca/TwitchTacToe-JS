@@ -1,5 +1,5 @@
-import { adicionarVoto, registrarVoto } from "./reducers";
-import store from "./store";
+import { adicionarVoto, registrarVoto } from "./reducers.js";
+import store from "./store.js";
 
 export class Votacao {
     constructor() {

@@ -1,5 +1,5 @@
-import { Votacao } from "./Votacao"
-import { TicTacToeTeams } from "./Teams"
+import { Votacao } from "./Votacao.js"
+import { TicTacToeTeams } from "./Teams.js"
 
 export class InstanceMaster {
     constructor() {

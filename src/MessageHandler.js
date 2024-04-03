@@ -1,5 +1,5 @@
-import { TicTacToePlayers } from "./Teams";
-import store from "./store";
+import { TicTacToePlayers } from "./Teams.js";
+import store from "./store.js";
 
 export class MessageHandler {
     constructor(instanceMaster) {
