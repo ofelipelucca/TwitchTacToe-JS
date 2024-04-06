@@ -24,7 +24,8 @@ jobs:
         run: npm run build
       
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@3.7.1
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
+          commit_message: Build Vite React Redux app
           branch: gh-pages  
           folder: dist
