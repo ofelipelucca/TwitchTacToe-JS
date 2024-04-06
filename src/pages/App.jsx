@@ -10,7 +10,7 @@ const App = () => {
 return (
     <Router>
         <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/TwitchTacToe-JS" element={<HomePage />} />
             <Route path="connected" element={<ConnectedPage />} />
             <Route path="connected/game" element={<GamePage />} />
             <Route path="results" element={<ResultPage />} />
