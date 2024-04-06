@@ -1,0 +1,47 @@
+.container-results {
+    position: absolute;
+    top: 20%;
+    left: 40%;
+    width: 50%;
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.30);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-radius: 2vh;
+    font-size: 2.8vh;
+    color: white;
+}
+
+.time-vencedor {
+    position: absolute;
+    top: 2%;
+    left: 29%;
+    width: 71%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#h1-vencedor {
+    font-size: 8vh;
+}
+
+#h1-time-vermelho {
+    font-size: 6vh;
+    color: red;
+    background-color: white;
+}
+
+#h1-time-azul {
+    font-size: 6vh;
+    color: blue;
+    background-color: white;
+}
+
+.gameControls button {
+    margin-top: 2vh;
+}

@@ -11,7 +11,25 @@ export class Votacao {
         ];
     }
 
-    registrarVoto(voto) {
+    processarVoto(jogador, mensagem) {
+    
+        const mensagemFiltrada = mensagem.toLowerCase();
+        
+        const timeJogando = store.getState().game.currentTeam;
+        
+        if (timeJogando == jogador.Time) {
+
+            for(const jogada of this.JogadasPossiveis) {
+
+                if (mensagemFiltrada == jogada) {
+
+                    this.registrarVoto(jogador, mensagemFiltrada);
+                }
+            }
+        }
+    }
+
+    registrarVoto(jogador, voto) {
         
         let indice = -1;
     
@@ -48,11 +66,11 @@ export class Votacao {
         }
 
         if (store.getState().game.tabuleiroAtual[indice] != '') return;
-
-        console.log('Voto registrado: ' + voto);
         
         store.dispatch(adicionarVoto());
     
-        store.dispatch(registrarVoto(indice));
+        const nome = jogador.Nome;
+
+        store.dispatch(registrarVoto({indice, jogador: nome}));
     } 
 }

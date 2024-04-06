@@ -4,19 +4,26 @@ import '../styles/Connected.css'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 import { TicTacToeGame } from '../Game'
-import { startGame } from '../reducers'
+import { limparTimes, startGame } from '../reducers'
 import { startMontagemTimes } from '../reducers'
 
 function ConnectedPage() {
-    
+
     const dispatch = useDispatch();
+
+    const navigate = useNavigate();
+
+    const timeVermelhoLength = useSelector(state => state.game.timeVermelho ? state.game.timeVermelho.length : 0);
+
+    const timeAzulLength = useSelector(state => state.game.timeAzul ? state.game.timeAzul.length : 0);
 
     dispatch(startMontagemTimes());
     
     function iniciarJogo() {
-
 
         dispatch(startGame());
 
@@ -24,8 +31,17 @@ function ConnectedPage() {
 
         Game.iniciarJogo();
 
+        navigate('game');
+
+        Game.definirOnGameEnd(() => {
+            navigate('/results');
+        });
     }
 
+    function mudarCanal() {
+        
+        dispatch(limparTimes());
+    }
 
     return (
         <div className="container">
@@ -50,19 +66,17 @@ function ConnectedPage() {
 
                     <div className="gameControls">
         
-                        <Link to="game">
-                            <button className="startButton" onClick={iniciarJogo}>JOGAR!</button>
-                        </Link>
+                        <button className="startButton" onClick={iniciarJogo}>JOGAR!</button>
                         <Link to="/">
-                            <button className="changeChannelButton">MUDAR CANAL</button>
+                            <button className="changeChannelButton" onClick={mudarCanal}>MUDAR CANAL</button>
                         </Link>
                     </div>
                     <div className='container-times'>
                         <div className="time-vermelho">
-                            <p id='p-time-vermelho'>TIME VERMELHO:</p><span id='qnt-time-vermelho'>0</span><p>pessoas.</p>
+                            <p id='p-time-vermelho'>TIME VERMELHO:</p><span id='qnt-time-vermelho'>{timeVermelhoLength}</span><p>pessoas.</p>
                         </div>
                         <div className="time-azul">
-                            <p id='p-time-azul'>TIME AZUL:</p><span id='qnt-time-azul'>0</span><p>pessoas.</p>
+                            <p id='p-time-azul'>TIME AZUL:</p><span id='qnt-time-azul'>{timeAzulLength}</span><p>pessoas.</p>
                         </div>
                     </div>
                 </div>

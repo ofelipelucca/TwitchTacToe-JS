@@ -1,67 +1,52 @@
 import store from './store.js';
-import { atualizarTabuleiro, endMontagemTimes, endVotacao, limparVotos, limparVotosETabuleiro, setCurrentTeam, setPosicaoMaisVotada, setVencedor, startVotacao } from './reducers.js';
-
-import TutorialComponent from './pages/components/Tutorial.jsx';
+import { atualizarTabuleiro, endMontagemTimes, endVotacao, novaRodada, limparVotos, limparVotosETabuleiro, setCurrentTeam, setPosicaoMaisVotada, setVencedor, adicionarVitoria, startVotacao, endGame } from './reducers.js';
 
 export class TicTacToeGame {
     constructor() {
-        this.RodadaAtual = 0;
-        this.TempoMaximoRodada = 25;
+        this.TempoMaximoRodada = store.getState().game.tempoMaximoRodada;
         this.timerRodada = null;
+        this.onGameEnd = null;
 
         this.Tabuleiro = [0, 0, 0,
                           0, 0, 0, 
                           0, 0, 0];
     }
 
+    definirOnGameEnd(callback) {
+        this.onGameEnd = callback;
+    }
+ 
     iniciarJogo() {
 
         store.dispatch(endMontagemTimes());
 
         store.dispatch(setVencedor(null));
-
-        console.log('Jogo começou');
-        
-        this.exibirTutorial();
-
+    
         this.sortearTimeInicial();
 
         this.iniciarRodada();
     }
 
-    exibirTutorial() {
-
-        const telaTutorial = new TutorialComponent();
-
-        telaTutorial.setState({exibirTutorial: true});
-    }
-
     iniciarRodada() {
 
-        this.RodadaAtual++;
-
-        console.log('Começando a rodada ' + this.RodadaAtual);
+        store.dispatch(novaRodada());
 
         let timeJogando = store.getState().game.currentTeam;
     
-        let proximoTime = timeJogando === 'Vermelho' ? 'Azul' : 'Vermelho';
+        let proximoTime = timeJogando === 'vermelho' ? 'azul' : 'vermelho';
 
         store.dispatch(setCurrentTeam(proximoTime));
-
-        console.log('Time que vai começar: ' + proximoTime);
 
         this.iniciarVotacao();
     }
 
     sortearTimeInicial() {
         
-        const timeSorteado = Math.random() < 0.5 ? 'Vermelho' : 'Azul';
+        const timeSorteado = Math.random() < 0.5 ? 'vermelho' : 'azul';
         store.dispatch(setCurrentTeam(timeSorteado));
     }
 
     iniciarVotacao() {
-
-        console.log('Votaçao iniciada.');
 
         store.dispatch(startVotacao());
 
@@ -69,17 +54,13 @@ export class TicTacToeGame {
 
             store.dispatch(endVotacao());
 
-            console.log('Votaçao encerrada');
-
             clearTimeout(this.timerRodada);
             
             let maiorVotos = 0;
             
             const votos = store.getState().game.tabuleiroVotos;
 
-            const quantidadeVotos = store.getState().game.votosTotais;
-
-            console.log('Votos registrados: ' + quantidadeVotos);
+            const quantidadeVotos = store.getState().game.votosRodada;
 
             if (quantidadeVotos > 0) {
 
@@ -88,23 +69,14 @@ export class TicTacToeGame {
                 const indicePosicaoMaisVotada = votos.indexOf(maiorVotos);
                 
                 const posicaoMaisVotada = store.getState().game.jogadasPossiveis[indicePosicaoMaisVotada];
-
-                console.log('Votos:');
-
-                console.log(`[${votos[0]}] [${votos[1]}] [${votos[2]}]`);
-                console.log(`[${votos[3]}] [${votos[4]}] [${votos[5]}]`);
-                console.log(`[${votos[6]}] [${votos[7]}] [${votos[8]}]`);
                 
                 store.dispatch(setPosicaoMaisVotada(posicaoMaisVotada));
                 
                 this.processarJogada(posicaoMaisVotada);
             } else {
-
-                console.log('Não houve votos na rodada.');
                 this.iniciarRodada();
             }
                         
-
         }, this.TempoMaximoRodada * 1000);
     }
 
@@ -148,19 +120,11 @@ export class TicTacToeGame {
                     throw new Error("Não foi possível processar o voto no tabuleiro: " + posicaoMaisVotada);
             }
         
-            valor = timeJogando === 'Vermelho' ? 'X' : 'O';
+            valor = timeJogando === 'vermelho' ? 'X' : 'O';
         
             this.Tabuleiro[indice]++;    
             
             store.dispatch(atualizarTabuleiro({indice, valor}));
-            
-            const tabuleiroStore = store.getState().game.tabuleiroAtual;
-
-            console.log('Tabuleiro atual: ');
-
-            console.log(`[${tabuleiroStore[0]}] [${tabuleiroStore[1]}] [${tabuleiroStore[2]}]`);
-            console.log(`[${tabuleiroStore[3]}] [${tabuleiroStore[4]}] [${tabuleiroStore[5]}]`);
-            console.log(`[${tabuleiroStore[6]}] [${tabuleiroStore[7]}] [${tabuleiroStore[8]}]`);
         }
 
         this.finalizarRodada();
@@ -170,46 +134,33 @@ export class TicTacToeGame {
 
         const timeVencedor = await this.verificarVencedor();
 
-        console.log('Finalizando a rodada.');
+        if (timeVencedor != null) {
 
-        if (timeVencedor == 'Empate') {
-
-            store.dispatch(setVencedor('Empate'));
-
-            console.log(store.getState().game.timeVencedor);
-
-            this.iniciarNovoJogo();
-
-            return;
-        } else if (timeVencedor != null) {
+            store.dispatch(endGame());
 
             store.dispatch(setVencedor(timeVencedor));
-            
-            console.log('Time vencedor: ' + store.getState().game.timeVencedor);
 
-            this.iniciarNovoJogo();
+            store.dispatch(adicionarVitoria(timeVencedor));
+
+            store.dispatch(limparVotosETabuleiro());
+
+            this.finalizarJogo();
 
             return;
         }
-
-        console.log('Ainda não houve ganhador, iniciando outra rodada.');
 
         store.dispatch(limparVotos());
 
         this.iniciarRodada();
     }
 
-    iniciarNovoJogo() {
+    finalizarJogo() {
 
-        store.dispatch(limparVotosETabuleiro());
-
-        store.dispatch(setVencedor(null));
-
-        this.RodadaAtual = 0;
-
-        console.log('Iniciando um novo jogo...');
-
-        this.iniciarRodada();
+        if (this.onGameEnd) {
+            this.onGameEnd();
+        } else {
+            throw new Error("Nenhum callback onGameEnd definido.");
+        }
     }
 
     verificarVencedor() {
@@ -217,8 +168,6 @@ export class TicTacToeGame {
         return new Promise((resolve) => {
 
             const tabuleiro = store.getState().game.tabuleiroAtual;
-    
-            console.log('Verificando vencedor.');
 
             // Verificar empate
             let existemVazios = false;
@@ -236,9 +185,7 @@ export class TicTacToeGame {
                 if (tabuleiro[i * 3] != '' && 
                     (tabuleiro[i * 3] == tabuleiro[i * 3 + 1] && tabuleiro[i * 3 + 1] == tabuleiro[i * 3 + 2])) {
     
-                    console.log('Vencedor em linha!');
-    
-                    resolve(tabuleiro[i * 3] === 'X' ? 'Vermelho' : 'Azul');
+                    resolve(tabuleiro[i * 3] === 'X' ? 'vermelho' : 'azul');
                     return;
                 }
             }
@@ -247,8 +194,7 @@ export class TicTacToeGame {
             for (let i = 0; i < 3; i++) {
                 if (tabuleiro[i] != '' && 
                     (tabuleiro[i] == tabuleiro[i + 3] && tabuleiro[i + 3] == tabuleiro[i + 6])) {
-                    console.log('Vencedor em coluna!');
-                    resolve(tabuleiro[i] === 'X' ? 'Vermelho' : 'Azul');
+                    resolve(tabuleiro[i] === 'X' ? 'vermelho' : 'azul');
                     return;
                 }
             }
@@ -256,8 +202,7 @@ export class TicTacToeGame {
             // Verificar diagonais
             if (tabuleiro[4] != '' && ((tabuleiro[0] == tabuleiro[4] && tabuleiro[4] == tabuleiro[8]) || 
                                        (tabuleiro[2] == tabuleiro[4] && tabuleiro[4] == tabuleiro[6]))) {
-                    console.log('Vencedor na diagonal!');
-                    resolve(tabuleiro[4] === 'X' ? 'Vermelho' : 'Azul');
+                    resolve(tabuleiro[4] === 'X' ? 'vermelho' : 'azul');
                     return;
             }
     

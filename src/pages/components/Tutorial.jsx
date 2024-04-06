@@ -25,9 +25,13 @@ export class TutorialComponent extends Component {
 function Tutorial(props) { 
     return (
         <div>
-            <h2>Tutorial do Jogo</h2>
-            <p>Aqui vai o conteúdo do tutorial...</p>
-            <button onClick={props.fecharTutorial}>Entendi</button> 
+            <div className='container-tutorial'>
+                <h2>COMO JOGAR?</h2>
+                <p>1. AS RODADAS TÊM 25 SEGUNDOS, ONDE O TIME DA VEZ VOTA (PELO CHAT) QUAL JOGADA FAZER.</p>
+                <p>2. A TODO MOMENTO FICARÁ VISÍVEL NA TELA OS COMANDOS PARA AS JOGADAS POSSÍVEIS, BASTA ENVIÁ-LOS NA VEZ DO SEU TIME.</p>
+                <p>3. A JOGADA MAIS VOTADA PELO TIME SERÁ EXECUTADA.</p>
+                <button onClick={props.fecharTutorial}>ENTENDI!</button>
+            </div> 
         </div>
     );
 }

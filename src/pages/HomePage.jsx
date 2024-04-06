@@ -3,7 +3,7 @@ import '../styles/Home.css'
 
 import { FiSearch } from 'react-icons/fi'
 import { useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { InstanceMaster } from '../InstanceMaster.js';
 import { TMIconnect } from '../TMIconnect';
@@ -16,12 +16,23 @@ const twitchChat = new TMIconnect(messageHandler);
 const HomePage = () => {
 
     const [input, setInput] = useState('');
+    const navigate = useNavigate();
 
     function handleSearch() {
         if (input === '') alert('Insira o canal que você deseja conectar!');
         else {
-
+            
+            twitchChat.definirIsConnectedCallback(() => {
+                navigate('/connected');
+            });
+            
             twitchChat.clientConnect(input);
+        }
+    }
+
+    function handleKeyPress(event) {
+        if (event.key === 'Enter') {
+            handleSearch();
         }
     }
 
@@ -39,6 +50,7 @@ const HomePage = () => {
                     placeholder='Insira seu canal...'
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={handleKeyPress}
                     />
 
                     <Link to="/connected">

@@ -1,32 +1,42 @@
+import { adicionarJogador } from "./reducers";
+import store from "./store";
+
 export class TicTacToeTeams {
-    constructor() {
-        this.timeVermelho = [];
-        this.timeAzul = [];
+    
+    async montarTimes(nome, time) {
+        const jogadorExistente = await this.searchJogador(nome);
+        
+        if (jogadorExistente != null) return;
+
+        const jogador = new TicTacToePlayers(nome, time);
+
+        this.criarJogador(jogador);
     }
 
-    adicionarJogador(jogador) {
+    criarJogador(jogador) {
+
         if (jogador instanceof TicTacToePlayers) {
-            if (jogador.Time === "vermelho") {
-                this.timeVermelho.push(jogador);
-            } else if (jogador.Time === "azul") {
-                this.timeAzul.push(jogador);
+
+            const time = jogador.Time;
+
+            const jogadorJSONData = jogador.toJson();
+
+            if (time === "vermelho") {
+                store.dispatch(adicionarJogador(jogadorJSONData));
+            } else if (time === "azul") {
+                store.dispatch(adicionarJogador(jogadorJSONData));    
             } else {
-                throw new Error("Não foi possível verificar a entrada do time do jogador " + jogador, ".");
+                throw new Error("Não foi possível verificar a entrada do time do jogador " + jogador + ".");
             }
         } else {
             throw new Error("Entrada inválida: O método 'adicionarJogador' deve receber um objeto de 'TicTacToePlayers'.");
         }
     }
 
-    searchJogador(nome) {
-    
-        for (const jogador of this.timeVermelho) {
-            if (jogador.Nome === nome) {
-                return jogador;
-            }
-        }
-    
-        for (const jogador of this.timeAzul) {
+    async searchJogador(nome) {
+        const allTeams = this.getAllTeams();
+
+        for (const jogador of allTeams) {
             if (jogador.Nome === nome) {
                 return jogador;
             }
@@ -35,22 +45,22 @@ export class TicTacToeTeams {
         return null;
     }
     
-
     getAllTeams() {
-        return [...this.timeVermelho, ...this.timeAzul];
+        return [...store.getState().game.timeVermelho, ...store.getState().game.timeAzul];
     }
 
     getTimeAzul() {
-        return this.timeAzul;
+        return store.getState().game.timeAzul;
     }
 
     getTimeVermelho() {
-        return this.timeVermelho;
+        return store.getState().game.timeVermelho;
     }
 }
 
 export class TicTacToePlayers {
     constructor(nome, time) {
+
         if (nome === '') throw new Error("Entrada inválida: O campo 'Nome' está vazio.");
 
         this.Nome = nome.toLowerCase();
@@ -58,8 +68,18 @@ export class TicTacToePlayers {
         time.toLowerCase();
         
         if (time === "azul") this.Time = time;
-        else if (time === "vermelho") this.Time = time
+        else if (time === "vermelho") this.Time = time;
         else throw new Error("Entrada inválida: O campo 'Time' está incorreto, use 'Vermelho' ou 'Azul'.");
+
+        this.Votos = 0;
+    }
+
+    toJson() {
+        return {
+            Nome: this.Nome,
+            Time: this.Time,
+            Votos: this.Votos
+        };
     }
 
     getPlayer() {

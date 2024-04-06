@@ -1,4 +1,3 @@
-import { TicTacToePlayers } from "./Teams.js";
 import store from "./store.js";
 
 export class MessageHandler {
@@ -13,14 +12,21 @@ export class MessageHandler {
         this.exibirMensagem(nome, mensagem);
 
         mensagem = mensagem.toLowerCase();
+        
+        const jogador = await this.InstanceMaster.Teams.searchJogador(nome);
 
-        if (store.getState().game.votacaoAcontecendo && mensagem.startsWith('!')) {
-            const voto = await this.processarVoto(nome, mensagem);
+        
+        if (store.getState().game.votacaoAcontecendo && mensagem.startsWith('!') && jogador != null) {
 
-            this.InstanceMaster.Votacao.registrarVoto(voto);
+            this.InstanceMaster.Votacao.processarVoto(jogador, mensagem);
         }
 
-        if (store.getState().game.montandoTimes) this.montarTimes(nome, mensagem);
+        if (store.getState().game.montandoTimes && mensagem.startsWith('!')) {
+
+            if (mensagem == '!timevermelho') this.InstanceMaster.Teams.montarTimes(nome, 'vermelho');
+
+            if (mensagem == '!timeazul') this.InstanceMaster.Teams.montarTimes(nome, 'azul');
+        }
     }
 
     exibirMensagem(nome, mensagem) {
@@ -41,57 +47,6 @@ export class MessageHandler {
 
         if (this.mensagens.length > this.limiteMensagens) {
             divChatContainer.removeChild(this.mensagens.shift());
-        }
-    }
-
-    processarVoto(nome, mensagem) {
-
-        return new Promise((resolve) => {
-    
-            const mensagemFiltrada = mensagem.toLowerCase();
-    
-            const jogador = this.InstanceMaster.Teams.searchJogador(nome);
-            
-            const timeJogando = store.getState().game.currentTeam.toLowerCase();
-    
-            const jogadasPossiveis = this.InstanceMaster.getJogadasPossiveis();
-            
-            if (timeJogando == jogador.Time) {
-    
-                for(const jogada of jogadasPossiveis) {
-    
-                    if (mensagemFiltrada == jogada) {
-    
-                        resolve(mensagemFiltrada);
-                        return;
-                    }
-                }
-            }
-        });
-    }
-
-    montarTimes(nome, mensagem) {
-
-        if (mensagem == "!timeazul") {
-
-            const jogador = new TicTacToePlayers(nome, "azul");
-
-            this.InstanceMaster.Teams.adicionarJogador(jogador);
-
-            console.log('Entrou no time azul: ' + nome);
-
-            return;
-        }   
-        
-        if (mensagem == "!timevermelho") {
-
-            const jogador = new TicTacToePlayers(nome, "vermelho");
-
-            this.InstanceMaster.Teams.adicionarJogador(jogador);
-
-            console.log('Entrou no time vermelho: ' + nome);
-
-            return;
         }
     }
 }
