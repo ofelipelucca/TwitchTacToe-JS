@@ -1,4 +1,4 @@
-# **! TWITCH TAC TOE**
+# **💬 ! TWITCH TAC TOE**
 
 _🚧 PROJETO EM CONSTRUÇÃO 🚧_
 
@@ -6,20 +6,20 @@ _🚧 PROJETO EM CONSTRUÇÃO 🚧_
 
 ## **Você pode acessar o site clicando [aqui](https://ofelipelucca.github.io/TwitchTacToe-JS)!**
 
-### **TECNOLOGIAS UTILIZADAS**
+### **👨‍💻 TECNOLOGIAS UTILIZADAS**
 
 - JavaScript
 - React
 - Vite
 - Redux
 
-### **FUNCIONALIDADES**
+### **👁️ FUNCIONALIDADES**
 
 - Conecte-se ao canal da Twitch e **jogue com os outros espectadores.**
 - Comandos de chat **simples para jogar** _(por exemplo, !cimaesquerda)._
 - **Interface intuitiva e amigável.**
 
-### **COMO CONTRIBUIR?**
+### **❓ COMO CONTRIBUIR?**
 
 Se você deseja contribuir para este projeto, siga estas etapas:
 
@@ -30,6 +30,6 @@ Se você deseja contribuir para este projeto, siga estas etapas:
 5. Faça push para a branch (`git push origin feature/sua-feature`).
 6. Crie um novo Pull Request :)
 
-### **CONTATO**
+### **📌 CONTATO**
 
 Se você tiver alguma dúvida ou sugestão, entre em contato com o desenvolvedor em [felipe.lucca.t.oliveira@gmail.com](mailto:felipe.lucca.t.oliveira@gmail.com).
