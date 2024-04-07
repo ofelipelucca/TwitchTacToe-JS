@@ -140,7 +140,7 @@ export class TicTacToeGame {
 
             store.dispatch(setVencedor(timeVencedor));
 
-            store.dispatch(adicionarVitoria(timeVencedor));
+            if (timeVencedor != 'Empate') store.dispatch(adicionarVitoria(timeVencedor));
 
             store.dispatch(limparVotosETabuleiro());
 
