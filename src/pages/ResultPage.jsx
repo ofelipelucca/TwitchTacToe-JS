@@ -52,7 +52,11 @@ function ResultPage() {
             <div className="chatContainer"></div>
 
             <div className="time-vencedor">
-                <h1 id='h1-vencedor'>O TIME <span id={timeVencedor == 'VERMELHO' ? 'h1-time-vermelho' : 'h1-time-azul'}>{timeVencedor}</span> VENCEU!!</h1>
+                {timeVencedor == 'EMPATE' ? 
+                    <h1 id='h1-vencedor'>DEU EMPATE!!!</h1>
+                    :
+                    <h1 id='h1-vencedor'>O TIME <span id={timeVencedor == 'VERMELHO' ? 'h1-time-vermelho' : 'h1-time-azul'}>{timeVencedor}</span> VENCEU!!!</h1>
+                }
             </div>
             
             <div className="container-results">
