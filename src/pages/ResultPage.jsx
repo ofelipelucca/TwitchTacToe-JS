@@ -28,17 +28,7 @@ function ResultPage() {
 
     function iniciarJogo() {
 
-        dispatch(startGame());
-
-        const Game = new TicTacToeGame();
-
-        Game.iniciarJogo();
-
-        navigate('/connected/game');
-
-        Game.definirOnGameEnd(() => {
-            navigate('/results');
-        });
+        navigate('/connected');
     }
 
     function mudarCanal() {
@@ -67,7 +57,7 @@ function ResultPage() {
                 <span id="vitorias-azul">VITÓRIAS DO TIME AZUL: {vitoriasAzul}</span>
 
                 <div className="gameControls">        
-                    <button className="startButton" onClick={iniciarJogo}>JOGAR!</button>
+                    <button className="startButton" onClick={iniciarJogo}>JOGAR NOVAMENTE!</button>
                     <Link to="/">
                         <button className="changeChannelButton" onClick={mudarCanal}>MUDAR CANAL</button>
                     </Link>
