@@ -1,7 +1,5 @@
 # **💬 ! TWITCH TAC TOE**
 
-_🚧 PROJETO EM CONSTRUÇÃO 🚧_
-
 **Este projeto permite que os espectadores de um canal da Twitch joguem o clássico jogo da velha** _(Tic Tac Toe)_ **diretamente no chat.**
 
 ## **Você pode acessar o site clicando [aqui](https://ofelipelucca.github.io/TwitchTacToe-JS)!**
